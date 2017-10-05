@@ -4,6 +4,6 @@ class NumberConverterController < ApplicationController
     @number_conversion = NumberConversion.new(safe_params)
     @number_conversion.save
 
-    @past_conversions = NumberConversion.all
+    @past_conversions = NumberConversion.all.order(created_at: :desc)
   end
 end

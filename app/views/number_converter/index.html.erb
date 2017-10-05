@@ -26,3 +26,14 @@
 
   <%= f.button 'Convert' %>
 <% end %>
+
+<h2>History</h2>
+<ul>
+<% @past_conversions.each do |conversion| %>
+  <li>
+    <%= conversion.number %><sub>10</sub>
+    =
+    <%= conversion.result %><sub><%= conversion.base %></sub>
+  </li>
+<% end %>
+</ul>
