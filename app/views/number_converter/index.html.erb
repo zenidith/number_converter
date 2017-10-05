@@ -1,20 +1,39 @@
 <h1>Number Converter 3000</h1>
 
-<% if @number.present? %>
-  <p>In base <%= @base %>:
-  <%= number_to_base(@number, @base) %></p>
+<p>
+  <%= pluralize(@past_conversions.count, 'conversion') %>
+</p>
+
+<% if @number_conversion.valid? %>
+  <p>In base <%= @number_conversion.base %>:
+  <%= @number_conversion.result %></p>
+<% else %>
+  <% @number_conversion.errors.full_messages.each do |message| %>
+    <p><%= message %></p>
+  <% end %>
 <% end %>
 
 <%= form_with(local: true) do |f| %>
   <div>
     <%= f.label :number, 'Enter your number:' %>
-    <%= f.text_field :number, value: @number %>
+    <%= f.text_field :number, value: @number_conversion.number %>
   </div>
 
   <div>
     <%= f.label :base, 'Convert to base:' %>
-    <%= f.text_field :base, value: @base %>
+    <%= f.text_field :base, value: @number_conversion.base %>
   </div>
 
   <%= f.button 'Convert' %>
 <% end %>
+
+<h2>History</h2>
+<ul>
+<% @past_conversions.each do |conversion| %>
+  <li>
+    <%= conversion.number %><sub>10</sub>
+    =
+    <%= conversion.result %><sub><%= conversion.base %></sub>
+  </li>
+<% end %>
+</ul>
